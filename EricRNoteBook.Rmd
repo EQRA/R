@@ -1,0 +1,516 @@
+---
+title: "Learn R from MarinStatsLectures"
+output: html_notebook
+---
+
+This is an [R Youtube Lectures](https://www.youtube.com/watch?v=riONFzJdXcs&list=PLqzoL9-eJTNBDdKgJgJzaQcY6OXmsXAHU) Notebook. 
+
+### 1.1 RStudio
+```{r}
+x<-1:5
+y<-6:10
+plot(x,y)
+```
+
+### 1.2 Install R and RStudio
+
+Download [R](http://www.r-project.org) first.
+
+Then install [RStudio] 
+
+### 1.3 Getting Started
+
+
+0:00:20 How to assign values to an object in R: 2 different ways
+```{r}
+y=12
+x<- 11
+print(y)
+x
+```
+easy to overwrite.
+
+0:01:46 How to use "ls" command to see what is stored in R (memory)
+```{r}
+ls()
+```
+
+0:01:57 How  remove an object using "rm" command
+```{r}
+rm(y)
+y
+```
+
+0:02:52 How to assign character values to objects in R
+```{r}
+myName<-"Eric"
+myName
+```
+
+### 1.4 Vectors, Matrices
+
+
+0:00:29 how to create vectors in R for both numbers or objects using the "c" or "concatenate" command
+```{r}
+x1 <- c(1,3,4,7,9)
+x1
+gender <- c("male","female")
+gender
+
+```
+
+0:01:09 how to create a sequence of integer values in R using the colon (:)
+```{r}
+x2 <- c(2:7)
+x2
+
+```
+
+0:01:20 how to use "seq" command in R to create sequences
+```{r}
+seq(from=1,to=7,by=2)
+seq(1,10,3)
+
+```
+
+0:01:55 how to use "rep" command in R to create a vector of repeated numbers or characters
+```{r}
+rep(1, times=10)
+rep("Eric",5)
+rep(1:3,5)
+```
+
+0:03:34 how to perform basic arithmetic functions on the elements of one vector in R
+```{r}
+x<-1:5
+x+10
+x*3
+
+```
+
+0:04:02 how to preform arithmetic functions on the corresponding elements of two vectors in R
+```{r}
+y<-c(2,3,4,7,10)
+x+y
+x*y
+
+```
+
+0:04:59 how to extract elements of a vector using square brackets[] in R
+```{r}
+y
+y[3]
+y[-3]
+y[1:3]
+y[c(1,5)]
+y[-c(1,5)]
+y[y>5]
+```
+
+0:06:08 how to create a matrix using "matrix" command in R
+```{r}
+matrix(c(1,2,3,4,5,6,7,8,9),nrow=3,byrow=TRUE)
+matrix(c(1,2,3,4,5,6,7,8,9),nrow=3,byrow=FALSE)
+matrix(c(1,2,3,4,5,6,7,8,9),nrow=3)
+matrix(c(1,2,3,4,5,6,7,8,9,10),nrow=2)
+
+mat <- matrix(c(1,2,3,4,5,6,7,8,9),nrow=3,byrow=TRUE)
+```
+
+0:06:21 how to set the number of rows and columns in a matrix using "nrow" and "byrow" commands in R
+
+0:07:05 how to use the square brackets to extract certain elements from a matrix in R
+```{r}
+mat[1,2]
+mat[3,2]
+mat[c(1,3),2]
+mat[,2]
+```
+
+0:08:06 how to perform element-wise arithmetic functions in a matrix in R
+```{r}
+mat^2
+```
+
+### 1.5 Import csv
+```{r}
+LungCapData<-read.delim(file.choose(),header=T)
+LungCapData
+```
+
+### 1.6 Working with data in R
+```{r}
+dim(LungCapData)
+names(LungCapData)
+mode(LungCapData)
+class(LungCapData)
+summary(LungCapData)
+
+head(LungCapData)
+tail(LungCapData,10)
+LungCapData[c(10,20,30),]
+LungCapData[21:24,]
+LungCapData[-c(4:722),]
+
+```
+
+### 1.7 Working with Data in R
+```{r}
+mean(LungCapData$Age)
+
+attach(LungCapData)
+max(Age)
+class(Age)
+class(Smoke)
+levels(Gender)
+```
+
+```{r}
+x <- c(0,1,1,1,0,0,0,0)
+class(x)
+summary(x)
+
+x<-as.factor(x)
+class(x)
+summary(x)
+
+```
+
+### 1.8 subsetting Date with square brackets
+```{r}
+Age[11:14]
+mean(Age[Gender=="female"])
+mean(Age[Gender=="male"])
+mean(Age)
+
+MaleOver15 <- LungCapData[Gender=="male" & Age>15,]
+summary(MaleOver15)
+```
+### 1.9 Logic 
+
+```{r}
+Age[1:5]
+
+temp1 <- Age>15
+temp1[1:5]
+
+temp2 <- as.numeric(Age>15)
+temp2[1:5]
+```
+
+0:01:55 how to use multiple logical statements within an R command to have a logical vector answering multiple questions (step by step example)
+```{r}
+FemSmoke <- Gender=="female" & Smoke=="yes"
+FemSmoke[1:5]
+```
+
+
+0:02:50 how to attach vectors or matrices in a column-wise fashion using the "cbind" command or in a row-wise fashion using the "rbind" command in R
+
+```{r}
+MoreData <- cbind(LungCapData, FemSmoke)
+MoreData[1:5,]
+
+rm(list=ls())
+
+```
+
+### 1.10 Working Directory
+```{r}
+getwd()
+
+```
+
+### 1.12 installing packages
+```{r}
+help("install.packages")
+install.packages("epiR")
+library(epiR)
+help(package=epiR)
+remove.packages(epiR)
+
+```
+
+### 2.1 Bar Charts and Pie Charts
+
+
+```{r}
+table(Gender)
+count<-table(Gender)
+pt<-table(Gender)/725
+barplot(count)
+barplot(pt, main="Gender PCt", xlab="Gender", ylab="%", names.arg = c("F","M"))
+
+```
+
+Modifying Pie Chart in R:
+
+```{r}
+pie(count)
+```
+
+### 2.2 Boxplot
+A boxplot is for summarizing the distribution of a numeric variable
+```{r}
+boxplot(LungCap)
+quantile(LungCap,probs=c(0,0.25,0.5,0.75,1))
+
+boxplot(LungCap~Gender,main="Gender Lung Cap", ylim=c(0,16), las=1)
+```
+
+### 2.3 Stratifed boxplots
+relationship between a categorical variable and a numeric variable, within strata or groups defined by a third categorical variable
+```{r}
+AgeGroups<-cut(Age, breaks=c(0,13,15,17,25), labels = c("<13","14/15","16/17","18+"))
+Age[1:5]
+AgeGroups[1:5]
+levels(AgeGroups)
+```
+
+The Smoking effiect is confounded with the age efffect
+on average, smokers are older than non-smokers, and older children have bigger lung capacities
+
+```{r}
+boxplot(LungCap~Smoke)
+
+boxplot(LungCap[Age>=18]~Smoke[Age>=18])
+
+boxplot(LungCap~Smoke*AgeGroups,col=c(4,2))
+
+```
+### 2.3 Histgrams
+for summarizing the distribution of a numeric variable
+```{r}
+hist(LungCap)
+hist(LungCap, freq = F)
+hist(LungCap, prob = T, ylim=c(0,0.20), breaks=seq(0,16,2), las=1)
+lines(density(LungCap),col=2,lwd=3)
+```
+### 2.4 Stem and leaf plots
+```{r}
+femalelungecap<-LungCap[Gender=="female"]
+stem(femalelungecap)
+stem(femalelungecap,scale=2)
+```
+
+### 2.5 Stacked barcharts, clustered barcharts, mosaic plot
+examing the relationship between 2 categorical variables
+```{r}
+table1 <- table(Smoke,Gender)
+table1
+barplot(table1)
+barplot(table1,beside = T, legend.text=T, col=c(3,2))
+
+mosaicplot(table1)
+```
+### 2.6 Scatterplots
+examing the relationship between two numerical variables
+
+Pearson's correlation is used to examine the strength of the linear relationship between the 2 numeric variables
+```{r}
+cor(Age,Height)
+plot(Age, Height)
+abline(lm(Height~Age), col=4, lwd=3)
+
+lines(smooth.spline(Age, Height), lty=2, lwd=5, col=2)
+
+```
+### 2.7 numerical summary
+
+```{r}
+table(Smoke)
+table(Smoke)/length(Smoke)
+
+table(Smoke,Gender)
+
+mean(LungCap, trim=0.10)
+
+median(LungCap)
+var(LungCap)
+sd(LungCap)
+sqrt(var(LungCap))
+sd(LungCap)^2
+range(LungCap)
+quantile(LungCap,probs = c(0.10,0.50,0.90))
+
+cor(LungCap,Age)
+cor(LungCap,Age,method = "spearman")
+cov(LungCap,Age)
+var(LungCap,Age)
+
+summary(LungCap)
+```
+
+###3.1 Binomial Distribution
+
+
+0:00:10 introducing the binomial random variable used in this video and its characteristics
+choose(n,k)
+```{r}
+choose(5,0)
+choose(5,1)
+choose(5,2)
+choose(5,3)
+choose(5,4)
+choose(5,5)
+
+```
+
+X is binomially distributed with n=20 trials and p=1/6 probability of success X ~ Bin (n=20,p=1/6)
+
+0:00:43 how to use the "dbinom" command in R to calculate probability for the binomial random variable 
+**dbinom** is used to find values for the probability density function of X, f(x)
+
+P(X=3)
+```{r}
+dbinom(x=3,size=20,prob=1/6)
+choose(20,3)*(1/6)^3*(1-1/6)^(20-3)
+
+```
+P(x=0) & p(x=1) & p(x=2) & p(x=3)
+```{r}
+dbinom(x=0:3,size=20,prob=1/6)
+dbinom(x=0:1,size=20,prob=1/6)
+```
+
+P(x<=3)
+```{r}
+sum(dbinom(x=0:3,size=20,prob=1/6))
+sum(dbinom(x=0:1,size=20,prob=1/6))
+```
+
+
+
+0:02:45 how to calculate cumulative probabilities in R for the binomial random variable using the "pbinom" command
+```{r}
+pbinom(q=3,size = 20, prob=1/6,lower.tail = T)
+```
+ "dbinom" find values for the probability _density_ function of X, f(x)
+ "pbinom" gives values for the probability _distribution_ function of X, F(x)
+ "rbinom" take a _random_ sample from a binomial dist.
+
+ "qbinom" find _quantiles_ for a binomial dis.
+ 
+###3.2 Poisson Distribution
+the number of **discrete events or occurrences** over a specified **interval or continumm**(time, length, distance, etc.)
+
+lambda= # occurences / specified interval
+expected value, mean, lambda the same things.
+
+checkout line, lambda=10 customer per 15 min interval.
+outcome, discrete outcomes, x=0,1,2,3...infinite
+
+
+x follows a poisson distribution with a known rate of lambda=7
+X ~ poisson(lambda=7)
+```{r}
+dpois(x=4, lambda = 7)
+
+7^4*exp(-7)/factorial(4)
+
+dpois(x=0:4, lambda = 7)
+sum(dpois(x=0:4, lambda = 7))
+ppois(q=4, lambda = 7,lower.tail = T)
+```
+
+###3.3 Normally Distribution
+X is normally distributed with a known mean of 75 and standard deviation of 5 
+P(X<=70)
+```{r}
+pnorm(q=70, mean=75, sd=5, lower.tail = T)
+```
+P(Z>1)
+```{r}
+pnorm(q=1,mean=0,sd=1, lower.tail = F)
+```
+```{r}
+qnorm(p=0.25, mean=75, sd=5,lower.tail = T)
+qnorm(p=0.5, mean=75, sd=5,lower.tail = T)
+qnorm(p=0.75, mean=75, sd=5,lower.tail = T)
+qnorm(p=0.90, mean=75, sd=5,lower.tail = T)
+```
+```{r}
+x<-seq(55,95,0.5)
+dens<-dnorm(x,mean=75,sd=5)
+plot(x,dens)
+plot(x,dens,type="l")
+abline(v=75)
+rand<- rnorm(n=40, mean=75, sd=5)
+hist(rand)
+```
+
+### 3.4 t Distribution and t Scores
+these can be used to find p-values or critical values for constructing confidence intervals for statistics that follow a t-distribution
+
+t follows a t-dis, with mean=0, sd=1 and 25 degrees of freedom.
+P(t>2.3)
+```{r}
+pt(q=2.3, df=25, lower.tail=F)
+
+pt(q=2.3, df=25, lower.tail=F)+pt(q=-2.3, df=25, lower.tail=T)
+pt(q=2.3, df=25, lower.tail=F)*2
+
+```
+find t value for 95% confidence
+
+```{r}
+qt(p=0.025, df=25, lower.tail = T)
+```
+
+### 4.1 one-sample t Test
+```{r}
+boxplot(LungCap)
+summary(LungCap)
+```
+Ho: mu>=8, Ha:mu<8
+one-sided 95% confidence interval for mu
+```{r}
+t.test(LungCap, mu=8, alternative = "less", conf.level = 0.95)
+```
+two-sided
+```{r}
+t.test(LungCap, mu=8, alt = "two.sided", conf = 0.95)
+TEST<-t.test(LungCap, mu=8,  conf.level = 0.99)
+TEST
+TEST$p.value
+TEST$conf.int
+```
+### 4.2 two-sample t Test
+these are ways of examing the relationship between a numeric outcome variable (Y) and a categorical explanatory variable (X, with 2 levels).
+
+Ho : mean lung cap of sokers = of non somkers
+two-sided test
+assume non-equal variance
+
+```{r}
+t.test(LungCap~Smoke, mu=0, alt = "two.sided", conf = 0.95, var.eq=F, paired=F)
+#same default value
+t.test(LungCap~Smoke)
+```
+
+```{r}
+var(LungCap[Smoke=="yes"])
+
+var(LungCap[Smoke=="no"])
+```
+Levene's test
+Ho: population variance are equal
+
+
+
+### 5.1 Linear Regression
+
+Model the relationship between Age and Lung Capacity
+```{r}
+cor(Age, LungCap)
+mod<-lm(LungCap~Age)
+summary(mod)
+attributes(mod)
+mod$coefficients
+
+
+plot(Age,LungCap)
+abline(mod)
+
+```
+
